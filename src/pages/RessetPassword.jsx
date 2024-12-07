@@ -12,29 +12,69 @@ const ResetPassword = () => {
     navigate('/SignIn');
   };
 
+  const styles = {
+    container: {
+      backgroundColor: '#f3f4f6',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+    },
+    card: {
+      backgroundColor: '#ffffff',
+      padding: '2rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      width: '100%',
+      maxWidth: '400px',
+      textAlign: 'center',
+    },
+    header: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      marginBottom: '0.5rem',
+    },
+    input: {
+      width: '100%',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      border: '1px solid #e5e7eb',
+      outline: 'none',
+      marginBottom: '1rem',
+    },
+    button: {
+      width: '100%',
+      backgroundColor: '#1f2937',
+      color: '#fff',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+    },
+  };
+
   return (
-    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-center mb-2">Reset Password</h1>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.header}>Reset Password</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div>
             <input
               type="password"
               placeholder="New Password"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              style={styles.input}
             />
           </div>
-          <div className="mb-6">
+          <div>
             <input
               type="password"
               placeholder="Confirm New Password"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              style={styles.input}
             />
           </div>
-          <div className="mb-4">
+          <div>
             <button
               type="submit"
-              className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800"
+              style={styles.button}
             >
               Continue
             </button>

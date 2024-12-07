@@ -40,47 +40,104 @@ class SignUp extends Component {
       return <Navigate to="/SignIn" />; // Menggunakan Navigate untuk redirect
     }
 
+    const styles = {
+      container: {
+        backgroundColor: '#f3f4f6',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+      },
+      card: {
+        backgroundColor: '#ffffff',
+        padding: '2rem',
+        borderRadius: '0.5rem',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        width: '100%',
+        maxWidth: '400px',
+      },
+      header: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: '1.5rem',
+      },
+      inputWrapper: {
+        marginBottom: '1.5rem',
+      },
+      input: {
+        width: '100%',
+        padding: '0.75rem',
+        borderRadius: '0.5rem',
+        border: '1px solid #e5e7eb',
+        outline: 'none',
+      },
+      radioGroup: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '1rem',
+      },
+      radioLabel: {
+        marginRight: '1rem',
+        marginBottom: '0',
+      },
+      button: {
+        width: '100%',
+        backgroundColor: '#1f2937',
+        color: '#fff',
+        padding: '0.75rem',
+        borderRadius: '0.5rem',
+        cursor: 'pointer',
+      },
+      link: {
+        color: '#2563eb',
+        textDecoration: 'none',
+      },
+      subRoleGroup: {
+        marginBottom: '1rem',
+      },
+    };
+
     return (
-      <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-          <h1 className="text-2xl font-bold text-center mb-2">Management System</h1>
-          <h2 className="text-2xl font-bold text-center mb-6">Lab TI UNSRAT</h2>
-          <h3 className="text-lg font-semibold text-center mb-4">SIGN UP</h3>
+      <div style={styles.container}>
+        <div style={styles.card}>
+          <h1 style={styles.header}>Management System</h1>
+          <h2 style={styles.header}>Lab TI UNSRAT</h2>
+          <h3 style={styles.header}>SIGN UP</h3>
           <form onSubmit={this.handleSubmit}>
-            <div className="mb-4">
+            <div style={styles.inputWrapper}>
               <input
                 type="text"
                 name="username"
                 placeholder="Name"
                 value={this.state.username}
                 onChange={this.handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                style={styles.input}
               />
             </div>
-            <div className="mb-4">
+            <div style={styles.inputWrapper}>
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={this.state.email}
                 onChange={this.handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                style={styles.input}
               />
             </div>
-            <div className="mb-6">
+            <div style={styles.inputWrapper}>
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
                 value={this.state.password}
                 onChange={this.handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                style={styles.input}
               />
             </div>
 
-            <div className="mb-4">
-              <span className="block text-gray-700">User</span>
-              <div className="flex items-center">
+            <div style={styles.inputWrapper}>
+              <span style={{ display: 'block', marginBottom: '0.5rem' }}>User</span>
+              <div style={styles.radioGroup}>
                 <input
                   type="radio"
                   id="dosen"
@@ -88,9 +145,8 @@ class SignUp extends Component {
                   value="Dosen"
                   checked={this.state.role === 'Dosen'}
                   onChange={this.handleRoleChange}
-                  className="mr-2"
                 />
-                <label htmlFor="dosen" className="mr-4">Dosen</label>
+                <label htmlFor="dosen" style={styles.radioLabel}>Dosen</label>
 
                 <input
                   type="radio"
@@ -99,17 +155,16 @@ class SignUp extends Component {
                   value="Mahasiswa"
                   checked={this.state.role === 'Mahasiswa'}
                   onChange={this.handleRoleChange}
-                  className="mr-2"
                 />
-                <label htmlFor="mahasiswa">Mahasiswa</label>
+                <label htmlFor="mahasiswa" style={styles.radioLabel}>Mahasiswa</label>
               </div>
             </div>
 
             {/* Subrole Selection (only for Mahasiswa) */}
             {this.state.role === 'Mahasiswa' && (
-              <div className="mb-4">
-                <span className="block text-gray-700">Sub user</span>
-                <div className="flex items-center">
+              <div style={styles.subRoleGroup}>
+                <span style={{ display: 'block', marginBottom: '0.5rem' }}>Sub user</span>
+                <div style={styles.radioGroup}>
                   <input
                     type="radio"
                     id="asisten"
@@ -117,9 +172,8 @@ class SignUp extends Component {
                     value="Asisten Lab"
                     checked={this.state.subRole === 'Asisten Lab'}
                     onChange={this.handleChange}
-                    className="mr-2"
                   />
-                  <label htmlFor="asisten" className="mr-4">Asisten Lab</label>
+                  <label htmlFor="asisten" style={styles.radioLabel}>Asisten Lab</label>
 
                   <input
                     type="radio"
@@ -128,24 +182,24 @@ class SignUp extends Component {
                     value="Mahasiswa Umum"
                     checked={this.state.subRole === 'Mahasiswa Umum'}
                     onChange={this.handleChange}
-                    className="mr-2"
                   />
-                  <label htmlFor="umum">Mahasiswa Umum</label>
+                  <label htmlFor="umum" style={styles.radioLabel}>Mahasiswa Umum</label>
                 </div>
               </div>
             )}
 
-            <div className="mb-4">
+            <div style={styles.inputWrapper}>
               <button
                 type="submit"
-                className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800"
+                style={styles.button}
               >
                 Sign Up
               </button>
             </div>
-            <div className="text-center">
-              <span className="text-black">Already have an account? </span>
-              <Link to="/SignIn" className="text-blue-600 hover:underline">
+
+            <div style={{ textAlign: 'center' }}>
+              <span>Already have an account? </span>
+              <Link to="/SignIn" style={styles.link}>
                 Login
               </Link>
             </div>

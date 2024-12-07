@@ -11,32 +11,84 @@ const FindAccount = () => {
     navigate('/ActivationCode');
   };
 
+  const styles = {
+    container: {
+      backgroundColor: '#f3f4f6',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+    },
+    card: {
+      backgroundColor: '#ffffff',
+      padding: '2rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      width: '100%',
+      maxWidth: '400px',
+      textAlign: 'center',
+    },
+    header: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      marginBottom: '0.5rem',
+    },
+    subHeader: {
+      fontSize: '0.875rem',
+      color: '#4b5563',
+      marginBottom: '1.5rem',
+    },
+    inputWrapper: {
+      marginBottom: '1.5rem',
+    },
+    input: {
+      width: '100%',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      border: '1px solid #e5e7eb',
+      outline: 'none',
+    },
+    button: {
+      width: '100%',
+      backgroundColor: '#1f2937',
+      color: '#fff',
+      padding: '0.75rem',
+      borderRadius: '0.5rem',
+      cursor: 'pointer',
+    },
+    link: {
+      color: '#2563eb',
+      textDecoration: 'none',
+      marginTop: '1rem',
+    },
+  };
+
   return (
-    <div className="bg-gray-100 flex items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm text-center">
-        <h1 className="text-2xl font-bold text-center mb-2">Find Your Account</h1>
-        <h2 className="text-sm text-center text-gray-600 mb-6">Confirm Your Email</h2>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.header}>Find Your Account</h1>
+        <h2 style={styles.subHeader}>Confirm Your Email</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div style={styles.inputWrapper}>
             <input 
               type="email" 
               placeholder="Email" 
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              style={styles.input}
               value={email}
               onChange={(e) => setEmail(e.target.value)} // Menangani perubahan input
               required
             />
           </div>
-          <div className="mb-4">
+          <div style={styles.inputWrapper}>
             <button 
               type="submit" 
-              className="w-full bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-800"
+              style={styles.button}
             >
               Continue
             </button>
           </div>
-          <div className="text-center">
-            <a href="/SignIn" className="text-blue-600 hover:underline">Back to Login</a>
+          <div>
+            <a href="/SignIn" style={styles.link}>Back to Login</a>
           </div>
         </form>
       </div>
