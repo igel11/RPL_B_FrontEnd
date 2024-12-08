@@ -6,6 +6,7 @@ import FindAccount from './pages/FindAccount';
 import ActivationCode from './pages/ActivationCode'; 
 import RessetPassword from './pages/RessetPassword'; 
 import Dashboard from './pages/Dashboard'; 
+import Absensi from './pages/Absensi';
 const App = () => {
   return (
     <Router> {/* Pastikan seluruh aplikasi dibungkus Router */}
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/ActivationCode" element={<ActivationCode />} />
         <Route path="/RessetPassword" element={<RessetPassword />} />
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Absensi" element={<Absensi />} />
       </Routes>
     </Router>
   );
