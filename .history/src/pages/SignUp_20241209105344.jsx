@@ -5,7 +5,7 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      username: '',
       email: '',
       password: '',
       role: '',
@@ -27,10 +27,10 @@ class SignUp extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, email, password, role, subRole } = this.state;
+    const { username, email, password, role, subRole } = this.state;
 
     const userData = {
-      name,
+      username,
       email,
       password,
       role,
@@ -45,19 +45,18 @@ class SignUp extends Component {
         },
         body: JSON.stringify(userData),
       });
-  
+
       const data = await response.json();
-      console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
+
       if (response.ok) {
         alert('User registered successfully');
         this.setState({ redirect: true });
       } else {
-        alert('Error: ' + (data.message || 'Unknown error')); // Menambahkan fallback jika message tidak ada
+        alert('Error: ' + data.message);
       }
     } catch (error) {
-      console.error('Error:', error); // Log error lebih jelas di konsol
-      alert('An error occurred: ' + error.message); // Menampilkan pesan error yang lebih spesifik
+      console.error('Error:', error);
+      alert('An error occurred');
     }
   };
 
@@ -76,9 +75,9 @@ class SignUp extends Component {
             <div className="mb-4">
               <input
                 type="text"
-                name="name"
+                name="username"
                 placeholder="Name"
-                value={this.state.name}
+                value={this.state.username}
                 onChange={this.handleChange}
                 className="w-full p-3 border border-gray-300 rounded-md outline-none"
               />

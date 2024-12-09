@@ -5,7 +5,7 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      name: '',  // Menggunakan name sesuai dengan kolom di backend
       email: '',
       password: '',
       role: '',
@@ -21,7 +21,7 @@ class SignUp extends Component {
 
   handleRoleChange = (e) => {
     const role = e.target.value;
-    this.setState({ role, subRole: '' });
+    this.setState({ role, subRole: '' }); // Reset subRole jika role berubah
   };
 
   handleSubmit = async (e) => {
@@ -29,12 +29,13 @@ class SignUp extends Component {
 
     const { name, email, password, role, subRole } = this.state;
 
+    // Kirim data yang diperlukan
     const userData = {
       name,
       email,
       password,
       role,
-      subRole,
+      subRole: role === 'Mahasiswa' ? subRole : null, // Kirim subRole hanya jika role adalah Mahasiswa
     };
 
     try {
@@ -45,10 +46,10 @@ class SignUp extends Component {
         },
         body: JSON.stringify(userData),
       });
-  
+
       const data = await response.json();
       console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
+
       if (response.ok) {
         alert('User registered successfully');
         this.setState({ redirect: true });

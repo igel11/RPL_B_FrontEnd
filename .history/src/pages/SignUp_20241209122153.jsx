@@ -27,10 +27,10 @@ class SignUp extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { name, email, password, role, subRole } = this.state;
+    const { username, email, password, role, subRole } = this.state;
 
     const userData = {
-      name,
+      username,
       email,
       password,
       role,
@@ -76,9 +76,9 @@ class SignUp extends Component {
             <div className="mb-4">
               <input
                 type="text"
-                name="name"
+                name="username"
                 placeholder="Name"
-                value={this.state.name}
+                value={this.state.username}
                 onChange={this.handleChange}
                 className="w-full p-3 border border-gray-300 rounded-md outline-none"
               />
