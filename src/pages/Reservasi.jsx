@@ -39,9 +39,13 @@ const Reservasi = () => {
 
         .react-calendar__navigation {
             height: 50px;
-            background: linear-gradient(135deg, #6366f1, #3730a3);
+            background: black;
             color: white;
             font-weight: 600;
+        }
+
+        .react-calendar__navigation button {
+            color: white !important;
         }
 
         .react-calendar__month-view__days__day {
@@ -56,8 +60,16 @@ const Reservasi = () => {
         }
 
         .react-calendar__tile--active {
-            background: linear-gradient(135deg, #6366f1, #3730a3) !important;
+            background: black !important;
             color: white !important;
+        }
+
+        .react-calendar__tile:hover {
+            background-color: #f3f4f6 !important;
+        }
+
+        .react-calendar__tile--now {
+            background-color: #f0f0f0 !important;
         }
     `;
 
@@ -103,7 +115,7 @@ const Reservasi = () => {
                                     className={`
                                         p-4 rounded-lg transition text-left 
                                         ${selectedRoom === room
-                                            ? 'bg-indigo-500 text-white'
+                                            ? 'bg-black text-white'
                                             : 'bg-gray-100 hover:bg-gray-200'}`}
                                     onClick={() => handleRoomSelect(room)}
                                 >
@@ -123,7 +135,7 @@ const Reservasi = () => {
                                     type="time"
                                     value={startTime}
                                     onChange={(e) => setStartTime(e.target.value)}
-                                    className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black focus:border-transparent"
                                 />
                             </div>
                             <div>
@@ -132,7 +144,7 @@ const Reservasi = () => {
                                     type="time"
                                     value={endTime}
                                     onChange={(e) => setEndTime(e.target.value)}
-                                    className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black focus:border-transparent"
                                 />
                             </div>
                         </div>
@@ -143,7 +155,7 @@ const Reservasi = () => {
                 <footer className="mt-8 w-full px-6">
                     <button
                         onClick={handleSubmit}
-                        className="w-full py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-lg font-semibold shadow-md"
+                        className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-semibold"
                     >
                         Ajukan Reservasi
                     </button>

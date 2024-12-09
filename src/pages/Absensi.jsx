@@ -48,7 +48,7 @@ const Absensi = () => {
         >
           <i className="fas fa-arrow-left text-xl"></i>
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">Absensi Karyawan</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Absensi</h1>
         <div className="w-8"></div>
       </header>
 
@@ -64,7 +64,7 @@ const Absensi = () => {
           />
           <button 
             onClick={generateNewQRCode}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="w-full mt-4 bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition font-semibold"
           >
             Generate Ulang QR
           </button>

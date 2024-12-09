@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import Absensi from './pages/Absensi';
 import Reservasi from './pages/Reservasi';
 import Laporan from './pages/Laporan';
+import Monitoring from './pages/Monitoring';
 const App = () => {
   return (
     <Router> {/* Pastikan seluruh aplikasi dibungkus Router */}
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/Absensi" element={<Absensi />} />
         <Route path="/Reservasi" element={<Reservasi />} />
         <Route path="/Laporan" element={<Laporan />} />
+        <Route path="/Monitoring" element={<Monitoring />} />
       </Routes>
     </Router>
   );

@@ -41,7 +41,7 @@ const Dashboard = () => {
     { 
       icon: 'fa-desktop', 
       text: 'Monitoring Alat', 
-      path: '/monitoring'
+      path: '/Monitoring'
     }
   ];
 
