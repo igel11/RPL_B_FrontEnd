@@ -5,7 +5,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activities, setActivities] = useState([]);
-  const [stats] = useState({
+  const [stats, setStats] = useState({
     absensi: 124,
     reservasi: 42
   });
@@ -36,7 +36,7 @@ const Dashboard = () => {
     { 
       icon: 'fa-exclamation-triangle', 
       text: 'Laporan Kerusakan', 
-      path: '/laporan'
+      path: '/Laporan'
     },
     { 
       icon: 'fa-desktop', 
