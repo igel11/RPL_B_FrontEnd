@@ -45,19 +45,18 @@ class SignUp extends Component {
         },
         body: JSON.stringify(userData),
       });
-  
+
       const data = await response.json();
-      console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
+
       if (response.ok) {
         alert('User registered successfully');
         this.setState({ redirect: true });
       } else {
-        alert('Error: ' + (data.message || 'Unknown error')); // Menambahkan fallback jika message tidak ada
+        alert('Error: ' + data.message);
       }
     } catch (error) {
-      console.error('Error:', error); // Log error lebih jelas di konsol
-      alert('An error occurred: ' + error.message); // Menampilkan pesan error yang lebih spesifik
+      console.error('Error:', error);
+      alert('An error occurred');
     }
   };
 

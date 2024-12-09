@@ -6,7 +6,6 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const SignIn = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [loading, setLoading] = useState(false); // Menambahkan state untuk loading
     const navigate = useNavigate();
 
     // Fungsi untuk menangani login
@@ -26,16 +25,7 @@ const SignIn = () => {
             return;
         }
 
-        // Validasi format email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Please enter a valid email');
-            return;
-        }
-
         const userData = { email, password }; // Mengirimkan email dan password
-
-        setLoading(true); // Set loading state menjadi true
 
         try {
             const response = await fetch('http://localhost:3001/api/login', {
@@ -50,8 +40,6 @@ const SignIn = () => {
 
             if (response.ok) {
                 alert('Login successful');
-                // Simpan token (jika ada) di localStorage/sessionStorage atau Context API
-                // localStorage.setItem('authToken', data.token);
                 navigate('/Dashboard'); // Mengarahkan ke dashboard setelah login berhasil
             } else {
                 alert('Login failed: ' + data.message);
@@ -59,8 +47,6 @@ const SignIn = () => {
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred during login');
-        } finally {
-            setLoading(false); // Set loading state menjadi false setelah proses selesai
         }
     };
 
@@ -101,12 +87,8 @@ const SignIn = () => {
                         </button>
                     </div>
                     <div>
-                        <button
-                            type="submit"
-                            className="w-full bg-gray-800 text-white py-2 rounded-md"
-                            disabled={loading} // Disable button saat loading
-                        >
-                            {loading ? 'Logging in...' : 'Login'}
+                        <button type="submit" className="w-full bg-gray-800 text-white py-2 rounded-md">
+                            Login
                         </button>
                     </div>
                     <div className="text-center mt-4">
@@ -126,4 +108,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default SignIn; // Harus di luar fungsi atau blok

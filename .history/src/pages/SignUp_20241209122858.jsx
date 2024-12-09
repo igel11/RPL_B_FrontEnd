@@ -21,7 +21,7 @@ class SignUp extends Component {
 
   handleRoleChange = (e) => {
     const role = e.target.value;
-    this.setState({ role, subRole: '' });
+    this.setState({ role, subRole: '' }); // Clear subRole when role changes
   };
 
   handleSubmit = async (e) => {
@@ -29,12 +29,24 @@ class SignUp extends Component {
 
     const { name, email, password, role, subRole } = this.state;
 
+    // Validasi form untuk memastikan semua field terisi
+    if (!name || !email || !password || !role) {
+      alert('All fields are required');
+      return;
+    }
+
+    // Jika role adalah Mahasiswa, pastikan subRole terisi
+    if (role === 'Mahasiswa' && !subRole) {
+      alert('Sub role is required for Mahasiswa');
+      return;
+    }
+
     const userData = {
-      name,
+      name,  // Menggunakan name yang benar sesuai state
       email,
       password,
       role,
-      subRole,
+      subRole: role === 'Mahasiswa' ? subRole : null, // Kirim subRole hanya jika role adalah Mahasiswa
     };
 
     try {
@@ -45,19 +57,19 @@ class SignUp extends Component {
         },
         body: JSON.stringify(userData),
       });
-  
+
       const data = await response.json();
-      console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
+      console.log('Server response:', data);
+
       if (response.ok) {
         alert('User registered successfully');
         this.setState({ redirect: true });
       } else {
-        alert('Error: ' + (data.message || 'Unknown error')); // Menambahkan fallback jika message tidak ada
+        alert('Error: ' + (data.message || 'Unknown error'));
       }
     } catch (error) {
-      console.error('Error:', error); // Log error lebih jelas di konsol
-      alert('An error occurred: ' + error.message); // Menampilkan pesan error yang lebih spesifik
+      console.error('Error:', error);
+      alert('An error occurred: ' + error.message);
     }
   };
 
@@ -76,7 +88,7 @@ class SignUp extends Component {
             <div className="mb-4">
               <input
                 type="text"
-                name="name"
+                name="name"  // Pastikan menggunakan name yang sesuai dengan state
                 placeholder="Name"
                 value={this.state.name}
                 onChange={this.handleChange}

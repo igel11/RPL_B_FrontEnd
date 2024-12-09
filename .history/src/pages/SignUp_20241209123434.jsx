@@ -21,45 +21,61 @@ class SignUp extends Component {
 
   handleRoleChange = (e) => {
     const role = e.target.value;
-    this.setState({ role, subRole: '' });
+    this.setState({ role, subRole: '' }); // Clear subRole when role changes
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const { name, email, password, role, subRole } = this.state;
 
+    // Validasi form untuk memastikan semua field terisi
+    if (!name || !email || !password || !role) {
+      alert('All fields are required');
+      return;
+    }
+
+    // Jika role adalah Mahasiswa, pastikan subRole terisi
+    if (role === 'Mahasiswa' && !subRole) {
+      alert('Sub role is required for Mahasiswa');
+      return;
+    }
+
     const userData = {
-      name,
+      name,  // Pastikan ini sesuai dengan field yang di backend
       email,
       password,
       role,
       subRole,
     };
 
-    try {
-      const response = await fetch('http://localhost:3001/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-  
-      const data = await response.json();
-      console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
-      if (response.ok) {
-        alert('User registered successfully');
-        this.setState({ redirect: true });
-      } else {
-        alert('Error: ' + (data.message || 'Unknown error')); // Menambahkan fallback jika message tidak ada
+      // Cek data sebelum dikirim ke backend
+      console.log('Data yang dikirim ke backend:', userData);
+
+      try {
+        const response = await fetch('http://localhost:3001/api/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+    
+        const data = await response.json();
+        console.log('Server response:', data); // Menampilkan respons server untuk debugging
+    
+        if (response.ok) {
+          alert('User registered successfully');
+          this.setState({ redirect: true });
+        } else {
+          alert('Error: ' + (data.message || 'Unknown error'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred: ' + error.message);
       }
-    } catch (error) {
-      console.error('Error:', error); // Log error lebih jelas di konsol
-      alert('An error occurred: ' + error.message); // Menampilkan pesan error yang lebih spesifik
-    }
-  };
+    };
+    
 
   render() {
     if (this.state.redirect) {
@@ -76,7 +92,7 @@ class SignUp extends Component {
             <div className="mb-4">
               <input
                 type="text"
-                name="name"
+                name="name"  // Pastikan menggunakan name yang sesuai dengan state
                 placeholder="Name"
                 value={this.state.name}
                 onChange={this.handleChange}

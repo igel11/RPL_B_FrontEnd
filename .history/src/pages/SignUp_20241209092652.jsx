@@ -5,7 +5,7 @@ class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      username: '',
       email: '',
       password: '',
       role: '',
@@ -24,41 +24,9 @@ class SignUp extends Component {
     this.setState({ role, subRole: '' });
   };
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
-
-    const { name, email, password, role, subRole } = this.state;
-
-    const userData = {
-      name,
-      email,
-      password,
-      role,
-      subRole,
-    };
-
-    try {
-      const response = await fetch('http://localhost:3001/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-  
-      const data = await response.json();
-      console.log('Server response:', data); // Menampilkan respons server untuk debugging
-  
-      if (response.ok) {
-        alert('User registered successfully');
-        this.setState({ redirect: true });
-      } else {
-        alert('Error: ' + (data.message || 'Unknown error')); // Menambahkan fallback jika message tidak ada
-      }
-    } catch (error) {
-      console.error('Error:', error); // Log error lebih jelas di konsol
-      alert('An error occurred: ' + error.message); // Menampilkan pesan error yang lebih spesifik
-    }
+    this.setState({ redirect: true });
   };
 
   render() {
@@ -76,9 +44,9 @@ class SignUp extends Component {
             <div className="mb-4">
               <input
                 type="text"
-                name="name"
+                name="username"
                 placeholder="Name"
-                value={this.state.name}
+                value={this.state.username}
                 onChange={this.handleChange}
                 className="w-full p-3 border border-gray-300 rounded-md outline-none"
               />
