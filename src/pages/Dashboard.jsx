@@ -5,7 +5,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activities, setActivities] = useState([]);
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     absensi: 124,
     reservasi: 42
   });
@@ -122,20 +122,20 @@ const Dashboard = () => {
             
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <a href="notifikasi.html">
-                  <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
-                </a>
+                <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <a href="profile.html">
+                <div 
+                  onClick={() => navigate('/profile')} // Gunakan React Router untuk navigasi ke profile
+                >
                   <img 
                     src="https://placehold.co/40x40" 
                     className="rounded-full" 
                     alt="Profile" 
                   />
-                </a>
+                </div>
                 <div>
                   <p className="font-semibold">Sarazel</p>
                   <p className="text-xs text-gray-500">Administrator</p>
