@@ -143,7 +143,7 @@ const Reservasi = () => {
                 <footer className="mt-8 w-full px-6">
                     <button
                         onClick={handleSubmit}
-                        className="w-full py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-lg font-semibold shadow-md"
+                        className="w-full py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition text-lg font-semibold shadow-md"
                     >
                         Ajukan Reservasi
                     </button>

@@ -64,7 +64,7 @@ const Absensi = () => {
           />
           <button 
             onClick={generateNewQRCode}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
           >
             Generate Ulang QR
           </button>
