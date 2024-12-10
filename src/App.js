@@ -7,6 +7,8 @@ import ActivationCode from './pages/ActivationCode';
 import RessetPassword from './pages/RessetPassword'; 
 import Dashboard from './pages/Dashboard'; 
 import Absensi from './pages/Absensi';
+import Reservasi from './pages/Reservasi';
+import Laporan from './pages/Laporan';
 const App = () => {
   return (
     <Router> {/* Pastikan seluruh aplikasi dibungkus Router */}
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="/RessetPassword" element={<RessetPassword />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Absensi" element={<Absensi />} />
+        <Route path="/Reservasi" element={<Reservasi />} />
+        <Route path="/Laporan" element={<Laporan />} />
       </Routes>
     </Router>
   );
