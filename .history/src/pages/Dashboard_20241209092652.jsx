@@ -122,20 +122,20 @@ const Dashboard = () => {
             
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                <a href="notifikasi.html">
+                  <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                </a>
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <div 
-                  onClick={() => navigate('/profile')} // Gunakan React Router untuk navigasi ke profile
-                >
+                <a href="profile.html">
                   <img 
                     src="https://placehold.co/40x40" 
                     className="rounded-full" 
                     alt="Profile" 
                   />
-                </div>
+                </a>
                 <div>
                   <p className="font-semibold">Sarazel</p>
                   <p className="text-xs text-gray-500">Administrator</p>

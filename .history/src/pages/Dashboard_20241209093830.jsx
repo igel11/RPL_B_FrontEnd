@@ -9,6 +9,15 @@ const Dashboard = () => {
     absensi: 124,
     reservasi: 42
   });
+  const [username, setUsername] = useState('Sarazel'); // Default username
+
+  useEffect(() => {
+    // Simulasi mendapatkan nama pengguna dari localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
   useEffect(() => {
     const mockActivities = [
@@ -122,22 +131,22 @@ const Dashboard = () => {
             
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                <a href="notifikasi.html">
+                  <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
+                </a>
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <div 
-                  onClick={() => navigate('/profile')} // Gunakan React Router untuk navigasi ke profile
-                >
+                <a href="profile.html">
                   <img 
                     src="https://placehold.co/40x40" 
                     className="rounded-full" 
                     alt="Profile" 
                   />
-                </div>
+                </a>
                 <div>
-                  <p className="font-semibold">Sarazel</p>
+                  <p className="font-semibold">{username}</p>
                   <p className="text-xs text-gray-500">Administrator</p>
                 </div>
               </div>
@@ -148,7 +157,7 @@ const Dashboard = () => {
           <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
             {/* Welcome Banner */}
             <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl shadow-lg">
-              <h2 className="text-3xl font-bold mb-2">Welcome Back, Sarazel</h2>
+              <h2 className="text-3xl font-bold mb-2">Welcome Back, {username}</h2>
               <p className="text-blue-100">Here's an overview of your lab management system</p>
             </div>
 

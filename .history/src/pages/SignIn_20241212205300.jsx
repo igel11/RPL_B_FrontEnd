@@ -82,13 +82,9 @@ const SignIn = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="text-gray-600 cursor-pointer bg-none border-none text-xl"
+              className="text-gray-500 cursor-pointer bg-none border-none text-xl"
             >
-              <FontAwesomeIcon
-                className="eye-icon"
-                icon={passwordVisible ? faEyeSlash : faEye}
-                style={{ marginLeft: "-50px" }}
-              />
+              <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
             </button>
           </div>
           <div>

@@ -38,7 +38,7 @@ class SignUp extends Component {
     };
 
     try {
-      const response = await fetch("http://localhost:3500/api/auth/signup", {
+      const response = await fetch("http://localhost:3500/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
