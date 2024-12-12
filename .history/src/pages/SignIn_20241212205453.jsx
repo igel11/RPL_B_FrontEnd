@@ -84,17 +84,13 @@ const SignIn = () => {
               onClick={togglePasswordVisibility}
               className="text-gray-600 cursor-pointer bg-none border-none text-xl"
             >
-              <FontAwesomeIcon
-                className="eye-icon"
-                icon={passwordVisible ? faEyeSlash : faEye}
-                style={{ marginLeft: "-50px" }}
-              />
+              <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
             </button>
           </div>
           <div>
             <button
               type="submit"
-              className="w-full bg-gray-800 text-white py-2 rounded-md"
+              className="w-full bg-gray-500 text-white py-2 rounded-md"
               disabled={loading} // Disable button saat loading
             >
               {loading ? "Logging in..." : "Login"}

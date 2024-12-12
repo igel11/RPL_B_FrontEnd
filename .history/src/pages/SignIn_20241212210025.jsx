@@ -87,7 +87,6 @@ const SignIn = () => {
               <FontAwesomeIcon
                 className="eye-icon"
                 icon={passwordVisible ? faEyeSlash : faEye}
-                style={{ marginLeft: "-50px" }}
               />
             </button>
           </div>
