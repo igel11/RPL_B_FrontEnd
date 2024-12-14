@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -10,63 +9,69 @@ const Dashboard = () => {
     absensi: 124,
     reservasi: 42,
   });
-  const [userName, setUserName] = useState(""); // State untuk nama pengguna
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
+  const [userName, setUserName] = useState(""); // State untuk menyimpan nama pengguna
 
   useEffect(() => {
-    // Cek apakah pengguna sudah login
-    const storedUserName = localStorage.getItem("userName");
+    const token = localStorage.getItem("token"); // Ambil token dari localStorage
 
-    if (storedUserName) {
-      setIsLoggedIn(true);
-      setUserName(storedUserName); // Ambil nama pengguna dari localStorage
-
-      // Mengambil data profil pengguna setelah login
-      axios
-        .get("http://localhost:3500/api/user/profile", {
-          params: { email: storedUserName },
+    if (token) {
+      fetch("/api/user/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // Mengirim token untuk autentikasi
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUserName(data.name); // Menyimpan nama pengguna dalam state
+          setActivities(data.activities); // Jika ada aktivitas yang dikirim dari API
         })
-        .then((response) => {
-          // Misalnya, mengambil data aktivitas dan statistik lainnya
-          setActivities(response.data.activities || []); // Pastikan server mengembalikan data aktivitas
-          setStats({
-            absensi: response.data.absensi || 0,
-            reservasi: response.data.reservasi || 0,
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
+        .catch((error) => console.error("Error fetching user profile:", error));
     } else {
-      setIsLoggedIn(false);
-      navigate("/login");
+      navigate("/login"); // Jika tidak ada token, arahkan ke halaman login
     }
+
+    // Ambil data untuk statistik lainnya
+    // Anda bisa menambahkan fetch lain di sini jika perlu
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("userName");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
-
   const sidebarMenus = [
-    { icon: "fa-home", text: "Dashboard", path: "/dashboard" },
-    { icon: "fa-qrcode", text: "Absensi", path: "/Absensi" },
-    { icon: "fa-calendar-alt", text: "Reservasi", path: "/Reservasi" },
+    {
+      icon: "fa-home",
+      text: "Dashboard",
+      path: "/dashboard",
+    },
+    {
+      icon: "fa-qrcode",
+      text: "Absensi",
+      path: "/Absensi",
+    },
+    {
+      icon: "fa-calendar-alt",
+      text: "Reservasi",
+      path: "/Reservasi",
+    },
     {
       icon: "fa-exclamation-triangle",
       text: "Laporan Kerusakan",
       path: "/Laporan",
     },
-    { icon: "fa-desktop", text: "Monitoring Alat", path: "/Monitoring" },
+    {
+      icon: "fa-desktop",
+      text: "Monitoring Alat",
+      path: "/Monitoring",
+    },
   ];
 
   return (
     <>
+      {/* Tambahkan link Font Awesome */}
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       />
+
+      {/* Custom Scrollbar Style */}
       <style>{`
         ::-webkit-scrollbar {
           width: 8px;
@@ -87,6 +92,7 @@ const Dashboard = () => {
       `}</style>
 
       <div className="flex h-screen overflow-hidden bg-gray-50">
+        {/* Sidebar */}
         <div className="w-64 bg-gradient-to-b from-gray-900 to-black text-white p-6 shadow-2xl">
           <div className="mb-12 flex items-center space-x-3">
             <img
@@ -119,7 +125,9 @@ const Dashboard = () => {
           </nav>
         </div>
 
+        {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Header */}
           <header className="bg-white shadow-md p-4 flex justify-between items-center">
             <div className="relative w-96">
               <input
@@ -141,7 +149,9 @@ const Dashboard = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                <div onClick={handleLogout} className="cursor-pointer">
+                <div
+                  onClick={() => navigate("/profile")} // Gunakan React Router untuk navigasi ke profile
+                >
                   <img
                     src="https://placehold.co/40x40"
                     className="rounded-full"
@@ -156,16 +166,19 @@ const Dashboard = () => {
             </div>
           </header>
 
+          {/* Main Dashboard */}
           <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
+            {/* Welcome Banner */}
             <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl shadow-lg">
               <h2 className="text-3xl font-bold mb-2">
-                Welcome Back, {userName || ".."}
+                Welcome Back, {userName || "Guest"}
               </h2>
               <p className="text-blue-100">
-                Pada web laboratorium Teknik Informatika UNSRAT
+                Selamat datang pada web lab Teknik Informatika UNSRAT
               </p>
             </div>
 
+            {/* Quick Stats */}
             <div className="grid grid-cols-4 gap-6 mb-6">
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex justify-between items-center">
@@ -192,23 +205,23 @@ const Dashboard = () => {
               </div>
             </div>
 
+            {/* Recent Activities */}
             <div className="bg-white p-6 rounded-xl shadow-md">
               <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
               <div className="space-y-4">
                 {activities.length > 0 ? (
-                  activities.map((activity, index) => (
+                  activities.map((activity) => (
                     <div
-                      key={index}
-                      className="flex justify-between items-center"
+                      key={activity.id}
+                      className="bg-gray-50 p-4 rounded-lg"
                     >
                       <p>{activity.description}</p>
-                      <span className="text-sm text-gray-400">
-                        {activity.timestamp}
-                      </span>
                     </div>
                   ))
                 ) : (
-                  <p>No activities found.</p>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p>No recent activities</p>
+                  </div>
                 )}
               </div>
             </div>

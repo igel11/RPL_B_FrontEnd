@@ -31,12 +31,12 @@ const Absensi = () => {
 
   // State untuk QR Code
   const [qrCode, setQrCode] = useState(
-    "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://192.168.43.220:3000/absensi"
+    "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://192.168.43.220:3001/absensi"
   );
 
   // Fungsi generate QR Code baru
   const generateNewQRCode = () => {
-    const newQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://192.168.43.220:300/absensi/${Date.now()}`;
+    const newQrCode = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://192.168.43.220:3001/absensi/${Date.now()}`;
     setQrCode(newQrCode);
   };
 

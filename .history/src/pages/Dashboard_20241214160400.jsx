@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -20,27 +19,20 @@ const Dashboard = () => {
     if (storedUserName) {
       setIsLoggedIn(true);
       setUserName(storedUserName); // Ambil nama pengguna dari localStorage
-
-      // Mengambil data profil pengguna setelah login
-      axios
-        .get("http://localhost:3500/api/user/profile", {
-          params: { email: storedUserName },
-        })
-        .then((response) => {
-          // Misalnya, mengambil data aktivitas dan statistik lainnya
-          setActivities(response.data.activities || []); // Pastikan server mengembalikan data aktivitas
-          setStats({
-            absensi: response.data.absensi || 0,
-            reservasi: response.data.reservasi || 0,
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
     } else {
       setIsLoggedIn(false);
       navigate("/login");
     }
+
+    // Mengambil data profil pengguna setelah login
+    if (storedUserName) {
+      setActivities([
+        { description: "Aktivitas 1", timestamp: "2024-12-01" },
+        { description: "Aktivitas 2", timestamp: "2024-12-02" },
+      ]); // Contoh data aktivitas, ganti dengan data nyata
+    }
+
+    // Statistik lainnya bisa ditambahkan di sini jika perlu
   }, [navigate]);
 
   const handleLogout = () => {
@@ -162,7 +154,7 @@ const Dashboard = () => {
                 Welcome Back, {userName || ".."}
               </h2>
               <p className="text-blue-100">
-                Pada web laboratorium Teknik Informatika UNSRAT
+                Selamat datang pada web lab Teknik Informatika UNSRAT
               </p>
             </div>
 

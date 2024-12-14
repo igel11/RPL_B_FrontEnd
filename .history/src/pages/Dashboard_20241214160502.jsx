@@ -162,7 +162,7 @@ const Dashboard = () => {
                 Welcome Back, {userName || ".."}
               </h2>
               <p className="text-blue-100">
-                Pada web laboratorium Teknik Informatika UNSRAT
+                Selamat datang pada web lab Teknik Informatika UNSRAT
               </p>
             </div>
 

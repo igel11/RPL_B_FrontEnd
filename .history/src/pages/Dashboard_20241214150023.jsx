@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -10,40 +9,42 @@ const Dashboard = () => {
     absensi: 124,
     reservasi: 42,
   });
-  const [userName, setUserName] = useState(""); // State untuk nama pengguna
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
+  const [userName, setUserName] = useState(""); // State untuk menyimpan nama pengguna
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Menyimpan status login
 
   useEffect(() => {
-    // Cek apakah pengguna sudah login
+    const token = localStorage.getItem("token");
     const storedUserName = localStorage.getItem("userName");
 
-    if (storedUserName) {
+    if (token && storedUserName) {
       setIsLoggedIn(true);
-      setUserName(storedUserName); // Ambil nama pengguna dari localStorage
-
-      // Mengambil data profil pengguna setelah login
-      axios
-        .get("http://localhost:3500/api/user/profile", {
-          params: { email: storedUserName },
-        })
-        .then((response) => {
-          // Misalnya, mengambil data aktivitas dan statistik lainnya
-          setActivities(response.data.activities || []); // Pastikan server mengembalikan data aktivitas
-          setStats({
-            absensi: response.data.absensi || 0,
-            reservasi: response.data.reservasi || 0,
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching user data:", error);
-        });
+      setUserName(storedUserName); // Menyimpan nama pengguna
     } else {
       setIsLoggedIn(false);
       navigate("/login");
     }
+
+    // Mengambil data profil pengguna setelah login
+    if (token) {
+      fetch("/api/user/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // Pastikan token dikirimkan di header
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUserName(data.name); // Menyimpan nama pengguna
+          setActivities(data.activities || []); // Misalnya data aktivitas
+        })
+        .catch((error) => console.error("Error fetching user profile:", error));
+    }
+
+    // Statistik lainnya bisa ditambahkan di sini jika perlu
   }, [navigate]);
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("userName");
     setIsLoggedIn(false);
     navigate("/login");
@@ -159,10 +160,10 @@ const Dashboard = () => {
           <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
             <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl shadow-lg">
               <h2 className="text-3xl font-bold mb-2">
-                Welcome Back, {userName || ".."}
+                Welcome Back, {userName || "Guest"}
               </h2>
               <p className="text-blue-100">
-                Pada web laboratorium Teknik Informatika UNSRAT
+                Selamat datang pada web lab Teknik Informatika UNSRAT
               </p>
             </div>
 
@@ -202,13 +203,13 @@ const Dashboard = () => {
                       className="flex justify-between items-center"
                     >
                       <p>{activity.description}</p>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-gray-500">
                         {activity.timestamp}
                       </span>
                     </div>
                   ))
                 ) : (
-                  <p>No activities found.</p>
+                  <p>No recent activities.</p>
                 )}
               </div>
             </div>

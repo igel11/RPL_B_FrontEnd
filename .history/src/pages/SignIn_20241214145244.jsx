@@ -38,9 +38,9 @@ const SignIn = () => {
       if (data.message === "Login successful") {
         alert("Login successful");
 
-        // Simpan token dan nama pengguna di localStorage
+        // Simpan token di localStorage
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userName", data.userName); // Menyimpan nama pengguna
+        localStorage.setItem("userName", data.userName); // Menyimpan nama pengguna jika perlu
 
         // Navigasi ke dashboard setelah login berhasil
         navigate("/Dashboard");
