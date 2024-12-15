@@ -39,7 +39,7 @@ const Dashboard = () => {
         });
     } else {
       setIsLoggedIn(false);
-      navigate("/");
+      navigate("/login");
     }
   }, [navigate]);
 
@@ -149,7 +149,7 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <p className="font-semibold">{userName || ".."}</p>
+                  <p className="font-semibold">{userName || "Guest"}</p>
                   <p className="text-xs text-gray-500">Administrator</p>
                 </div>
               </div>

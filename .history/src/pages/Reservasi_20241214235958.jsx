@@ -22,19 +22,8 @@ const Reservasi = () => {
       setRoomStatus(status);
     });
 
-    // Mendengarkan event status reservasi
-    socket.on("reservationStatus", (status) => {
-      if (status.status === "success") {
-        alert(`Reservasi berhasil! ID Reservasi: ${status.reservationId}`);
-        setRoomStatus(""); // Reset status setelah sukses
-      } else {
-        alert(`Error: ${status.message}`);
-      }
-    });
-
     return () => {
       socket.off("roomStatus");
-      socket.off("reservationStatus");
     };
   }, []);
 

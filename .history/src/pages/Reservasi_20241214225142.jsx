@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "font-awesome/css/font-awesome.min.css";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:3500");
+import axios from "axios";
 
 const Reservasi = () => {
   const navigate = useNavigate();
@@ -13,53 +11,30 @@ const Reservasi = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
-  const [roomStatus, setRoomStatus] = useState(""); // Menambahkan status ruangan
-  const [errorMessage, setErrorMessage] = useState(""); // Menambahkan state untuk error
-
-  useEffect(() => {
-    // Mendengarkan event untuk status ruangan
-    socket.on("roomStatus", (status) => {
-      setRoomStatus(status);
-    });
-
-    // Mendengarkan event status reservasi
-    socket.on("reservationStatus", (status) => {
-      if (status.status === "success") {
-        alert(`Reservasi berhasil! ID Reservasi: ${status.reservationId}`);
-        setRoomStatus(""); // Reset status setelah sukses
-      } else {
-        alert(`Error: ${status.message}`);
-      }
-    });
-
-    return () => {
-      socket.off("roomStatus");
-      socket.off("reservationStatus");
-    };
-  }, []);
 
   const handleRoomSelect = (room) => {
     setSelectedRoom(room);
-    setRoomStatus(""); // Reset status saat memilih ruangan baru
   };
 
-  const handleSubmit = () => {
-    const userId = localStorage.getItem("userid");
-    if (!userId) {
-      alert("Pengguna tidak ditemukan. Silakan login terlebih dahulu.");
-      return;
-    }
-
+  const handleSubmit = async () => {
     const reservationData = {
-      userId,
+      userId: 1, // Replace with dynamic user ID if needed
       room: selectedRoom,
-      date: date.toISOString().split("T")[0],
+      date: date.toISOString().split("T")[0], // Format date as YYYY-MM-DD
       startTime,
       endTime,
     };
 
-    // Emit event untuk memeriksa ketersediaan ruangan
-    socket.emit("checkRoom", reservationData);
+    try {
+      const response = await axios.post(
+        "http://localhost:3500/reservations",
+        reservationData
+      );
+      console.log("Reservasi berhasil:", response.data);
+      // Optionally navigate or show a success message here
+    } catch (error) {
+      console.error("Error saat membuat reservasi:", error);
+    }
   };
 
   const modernCalendarStyles = `
@@ -115,6 +90,7 @@ const Reservasi = () => {
     <div className="bg-gray-100 flex flex-col items-center min-h-screen">
       <style>{modernCalendarStyles}</style>
       <div className="w-full max-w-3xl">
+        {/* Header */}
         <header className="bg-white shadow-md rounded-lg mb-8 p-4 flex justify-between items-center">
           <button
             onClick={() => navigate("/dashboard")}
@@ -128,7 +104,9 @@ const Reservasi = () => {
           <div className="w-8"></div>
         </header>
 
+        {/* Main Content */}
         <main className="mt-8 space-y-6">
+          {/* Pilih Tanggal */}
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Pilih Tanggal
@@ -144,6 +122,7 @@ const Reservasi = () => {
             />
           </div>
 
+          {/* Pilih Ruangan */}
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Pilih Ruangan
@@ -157,11 +136,13 @@ const Reservasi = () => {
               ].map((room) => (
                 <button
                   key={room}
-                  className={`text-white py-2 px-4 rounded-lg shadow-lg transition-colors duration-300 transform ${
-                    selectedRoom === room
-                      ? "bg-green-500"
-                      : "bg-blue-500 hover:bg-blue-600"
-                  }`}
+                  className={`
+                    p-4 rounded-lg transition text-left 
+                    ${
+                      selectedRoom === room
+                        ? "bg-black text-white"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    }`}
                   onClick={() => handleRoomSelect(room)}
                 >
                   {room}
@@ -170,45 +151,43 @@ const Reservasi = () => {
             </div>
           </div>
 
+          {/* Waktu */}
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">
               Pilih Waktu
             </h2>
-            <div className="flex space-x-4">
-              <input
-                type="time"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-                className="w-full p-2 border rounded-lg"
-              />
-              <input
-                type="time"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                className="w-full p-2 border rounded-lg"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 mb-2">Mulai</label>
+                <input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Selesai</label>
+                <input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  className="w-full p-3 bg-gray-50 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black focus:border-transparent"
+                />
+              </div>
             </div>
           </div>
+        </main>
 
-          {roomStatus && (
-            <div
-              className={`text-white p-4 rounded-lg ${
-                roomStatus === "unavailable" ? "bg-red-500" : "bg-green-500"
-              }`}
-            >
-              {roomStatus === "unavailable"
-                ? "Ruangan tidak tersedia pada waktu yang dipilih."
-                : "Ruangan tersedia."}
-            </div>
-          )}
-
+        {/* Footer */}
+        <footer className="mt-8 w-full px-6">
           <button
             onClick={handleSubmit}
-            className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600"
+            className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-semibold"
           >
-            Cek Ketersediaan
+            Ajukan Reservasi
           </button>
-        </main>
+        </footer>
       </div>
     </div>
   );
