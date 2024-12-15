@@ -9,7 +9,9 @@ const Laporan = () => {
           <a href="/dashboard" className="text-gray-600 hover:text-gray-800">
             <i className="fas fa-arrow-left text-xl cursor-pointer transition"></i>
           </a>
-          <h1 className="text-2xl font-bold text-gray-800">Laporan Kerusakan</h1>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Laporan Kerusakan
+          </h1>
           <div className="w-6"></div>
         </header>
 
@@ -20,12 +22,16 @@ const Laporan = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Nama Alat
                 </label>
-                <input
-                  type="text"
+                <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Masukkan nama alat"
                   required
-                />
+                >
+                  <option value="">Pilih Alat</option>
+                  <option value="komputer">Komputer</option>
+                  <option value="mouse">Mouse</option>
+                  <option value="keyboard">Keyboard</option>
+                  <option value="printer3d">Printer 3D</option>
+                </select>
               </div>
 
               {/* Dropdown lokasi ruangan */}
@@ -64,7 +70,9 @@ const Laporan = () => {
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                   <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
-                  <p className="text-gray-600 mb-2">Seret dan lepas foto di sini</p>
+                  <p className="text-gray-600 mb-2">
+                    Seret dan lepas foto di sini
+                  </p>
                   <p className="text-sm text-gray-500">atau</p>
                   <label className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition">
                     Pilih Foto

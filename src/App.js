@@ -10,6 +10,9 @@ import Absensi from './pages/Absensi';
 import Reservasi from './pages/Reservasi';
 import Laporan from './pages/Laporan';
 import Monitoring from './pages/Monitoring';
+import Notifikasi from './pages/Notifikasi';
+import DetailNotifikasi from './pages/DetailNotifikasi';
+import Profile from './pages/Profile';
 const App = () => {
   return (
     <Router> {/* Pastikan seluruh aplikasi dibungkus Router */}
@@ -27,6 +30,9 @@ const App = () => {
         <Route path="/Reservasi" element={<Reservasi />} />
         <Route path="/Laporan" element={<Laporan />} />
         <Route path="/Monitoring" element={<Monitoring />} />
+        <Route path="/Notifikasi" element={<Notifikasi />} />
+        <Route path="/DetailNotifikasi" element={<DetailNotifikasi />} />
+        <Route path="/Profile" element={<Profile />} />
       </Routes>
     </Router>
   );
