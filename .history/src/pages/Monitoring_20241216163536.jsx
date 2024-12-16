@@ -6,19 +6,12 @@ import axios from "axios";
 const Monitoring = () => {
   const [selectedLab, setSelectedLab] = useState(""); // State untuk menyimpan lab yang dipilih
   const [labItems, setLabItems] = useState([]); // State untuk menyimpan data alat laboratorium
-  const [role, setRole] = useState(""); // State untuk menyimpan role pengguna
   const labs = [
     "Keamanan Cyber",
     "Teknologi Basis Data",
     "Multi Media",
     "Rekayasa Perangkat Lunak",
   ];
-
-  // Mengambil role dari localStorage
-  useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    setRole(storedRole);
-  }, []);
 
   // Menghubungkan ke server Socket.io dan menerima pembaruan data secara real-time
   useEffect(() => {
@@ -34,7 +27,7 @@ const Monitoring = () => {
     return () => {
       socket.disconnect(); // Tutup koneksi saat komponen unmount
     };
-  }, [selectedLab]);
+  }, [selectedLab, labItems]); // Pastikan labItems diperbarui setiap kali ada data baru
 
   // Mengambil data alat laboratorium berdasarkan lab yang dipilih
   useEffect(() => {
@@ -54,10 +47,8 @@ const Monitoring = () => {
     fetchLabItems(); // Panggil fungsi fetch data setelah selectedLab dipilih
   }, [selectedLab]);
 
-  // Fungsi untuk memperbarui jumlah alat di server (hanya untuk dosen)
+  // Fungsi untuk memperbarui jumlah alat di server
   const updateLabItem = async (itemIndex, field, value) => {
-    if (role !== "Dosen") return; // Jika bukan Dosen, tidak bisa mengupdate
-
     try {
       const updatedLabItems = [...labItems];
       const item = updatedLabItems[itemIndex];
@@ -167,7 +158,6 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
@@ -183,7 +173,6 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
@@ -199,14 +188,13 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
                     {/* Baris Total */}
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-semibold">Total:</span>
-                      <span className="text-sm font-medium -ml-0">
+                      <span className="text-sm font-medium -ml-2">
                         {item.total}
                       </span>
                     </div>

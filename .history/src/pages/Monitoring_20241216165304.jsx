@@ -54,9 +54,9 @@ const Monitoring = () => {
     fetchLabItems(); // Panggil fungsi fetch data setelah selectedLab dipilih
   }, [selectedLab]);
 
-  // Fungsi untuk memperbarui jumlah alat di server (hanya untuk dosen)
+  // Fungsi untuk memperbarui jumlah alat di server (hanya untuk admin)
   const updateLabItem = async (itemIndex, field, value) => {
-    if (role !== "Dosen") return; // Jika bukan Dosen, tidak bisa mengupdate
+    if (role !== "admin") return; // Jika bukan admin, tidak bisa mengupdate
 
     try {
       const updatedLabItems = [...labItems];
@@ -167,7 +167,7 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
+                        disabled={role !== "admin"} // Hanya admin yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
@@ -183,7 +183,7 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
+                        disabled={role !== "admin"} // Hanya admin yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
@@ -199,7 +199,7 @@ const Monitoring = () => {
                             parseInt(e.target.value)
                           )
                         }
-                        disabled={role !== "Dosen"} // Hanya dosen yang bisa mengubah
+                        disabled={role !== "Dosen"} // Hanya admin yang bisa mengubah
                         className="w-16 p-1 border rounded text-center"
                       />
                     </div>
