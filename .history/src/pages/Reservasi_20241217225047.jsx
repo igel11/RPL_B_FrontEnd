@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -10,76 +10,18 @@ const Reservasi = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
-  const [reservations, setReservations] = useState([]); // Untuk menyimpan data reservasi yang sudah ada
-  const [isRoomAvailable, setIsRoomAvailable] = useState(true); // Untuk memvalidasi apakah ruangan tersedia atau tidak
-
-  // Daftar ruangan yang tersedia
-  const availableRooms = [
-    "Keamanan Cyber",
-    "Teknologi Basis Data",
-    "Multi Media",
-    "Rekayasa Perangkat Lunak",
-  ];
-
-  // Ambil data reservasi yang sudah ada dari backend
-  useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const response = await fetch("http://localhost:3500/api/reservations");
-        const data = await response.json();
-        setReservations(data);
-      } catch (error) {
-        console.error("Error fetching reservations:", error);
-      }
-    };
-    fetchReservations();
-  }, []);
-
-  // Cek ketersediaan ruangan pada tanggal dan waktu tertentu
-  const checkRoomAvailability = (selectedDate, room, start, end) => {
-    const isAvailable = reservations.every((reservation) => {
-      const reservationDate = new Date(reservation.date);
-      const startTime = new Date(
-        `${reservation.date} ${reservation.startTime}`
-      );
-      const endTime = new Date(`${reservation.date} ${reservation.endTime}`);
-
-      // Cek apakah ruangan yang sama sudah dipesan pada waktu yang sama
-      return !(
-        reservation.room === room &&
-        reservationDate.toDateString() === selectedDate.toDateString() &&
-        startTime <= end &&
-        endTime >= start
-      );
-    });
-    setIsRoomAvailable(isAvailable);
-  };
 
   // Form Submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Mengambil data pengguna dari localStorage
     const name = localStorage.getItem("name");
     const role = localStorage.getItem("role");
 
     if (!name || !role) {
-      alert("Informasi pengguna hilang. Silakan login terlebih dahulu.");
+      alert("User information is missing. Please login first.");
       return;
     }
 
-    // Validasi waktu
-    if (startTime >= endTime) {
-      alert("Waktu mulai harus lebih kecil dari waktu selesai.");
-      return;
-    }
-
-    if (!selectedRoom) {
-      alert("Ruangan sudah dipesan pada waktu tersebut.");
-      return;
-    }
-
-    // Data yang akan dikirim ke backend
     const reservationData = {
       date: date.toISOString().split("T")[0],
       startTime,
@@ -89,44 +31,39 @@ const Reservasi = () => {
       role,
     };
 
-    const response = await fetch(
-      "http://localhost:3500/api/reservations/add", // URL backend yang sesuai
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(reservationData),
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/reservations/add",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(reservationData),
+        }
+      );
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message);
+        setDate(new Date());
+        setStartTime("");
+        setEndTime("");
+        setSelectedRoom("");
+      } else {
+        alert(result.message);
       }
-    );
-    const result = await response.json();
-
-    if (response.ok) {
-      alert(result.message);
-      navigate("/dashboard");
-    } else {
-      alert(result.message);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Gagal mengajukan reservasi.");
     }
   };
 
-  // Menangani perubahan tanggal pada kalender
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    // Cek ketersediaan ruangan setelah tanggal dipilih
-    if (selectedRoom) {
-      checkRoomAvailability(newDate, selectedRoom, startTime, endTime);
-    }
-  };
-
-  // Menangani pemilihan ruangan
   const handleRoomSelect = (room) => {
     setSelectedRoom(room);
-    if (date) {
-      checkRoomAvailability(date, room, startTime, endTime);
-    }
   };
 
   const modernCalendarStyles = `
     .react-calendar {
-      width: 100%;
+      width: 1000%;
       max-width: 600px;
       background: white;
       border: none;
@@ -182,7 +119,7 @@ const Reservasi = () => {
               Pilih Tanggal
             </h2>
             <Calendar
-              onChange={handleDateChange}
+              onChange={setDate}
               value={date}
               minDate={new Date()}
               next2Label={null}
@@ -197,7 +134,12 @@ const Reservasi = () => {
               Pilih Ruangan
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              {availableRooms.map((room) => (
+              {[
+                "Keamanan Cyber",
+                "Teknologi Basis Data",
+                "Multi Media",
+                "Rekayasa Perangkat Lunak",
+              ].map((room) => (
                 <button
                   key={room}
                   type="button"
@@ -243,9 +185,8 @@ const Reservasi = () => {
             <button
               type="submit"
               className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-semibold"
-              disabled={!isRoomAvailable}
             >
-              {isRoomAvailable ? "Ajukan Reservasi" : "Ruangan Tidak Tersedia"}
+              Ajukan Reservasi
             </button>
           </div>
         </form>

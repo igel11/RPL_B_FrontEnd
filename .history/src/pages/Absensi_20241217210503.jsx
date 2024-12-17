@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Mock user data for demonstration purposes
+const currentUser = {
+  id: 1,
+  name: "Tess",
+};
+
 const Absensi = () => {
   const navigate = useNavigate();
-
-  // State untuk menyimpan nama pengguna
-  const [currentUserName, setCurrentUserName] = useState("");
 
   // State untuk riwayat absensi
   const [attendanceHistory, setAttendanceHistory] = useState([]);
@@ -14,16 +17,6 @@ const Absensi = () => {
   const [qrCode, setQrCode] = useState(
     "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://192.168.43.130:3000/absensi"
   );
-
-  // Ambil nama pengguna dari localStorage saat komponen dimuat
-  useEffect(() => {
-    const name = localStorage.getItem("name");
-    if (name) {
-      setCurrentUserName(name);
-    } else {
-      navigate("/signin"); // Redirect ke halaman login jika nama tidak ditemukan
-    }
-  }, [navigate]);
 
   // Fungsi generate QR Code baru
   const generateNewQRCode = () => {
@@ -35,7 +28,7 @@ const Absensi = () => {
   const markAttendance = () => {
     const newAttendance = {
       id: attendanceHistory.length + 1,
-      name: currentUserName, // Ambil nama pengguna dari state
+      name: currentUser.name,
       status: "Hadir",
       time: new Date().toLocaleString(),
       color: "bg-blue-500",
@@ -45,11 +38,14 @@ const Absensi = () => {
 
   // Effect untuk menandai kehadiran saat QR Code di-scan
   useEffect(() => {
+    // Simulasi pemindaian QR Code
     const handleQRCodeScan = () => {
       markAttendance();
     };
 
-    const timer = setTimeout(handleQRCodeScan, 2000); // Simulasi pemindaian QR Code setelah 2 detik
+    // Simulate QR code scan after generating a new QR code
+    const timer = setTimeout(handleQRCodeScan, 2000); // Simulate a scan after 2 seconds
+
     return () => clearTimeout(timer);
   }, [qrCode]);
 

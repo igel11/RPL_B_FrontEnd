@@ -11,6 +11,7 @@ const Dashboard = () => {
   });
   const [name, setName] = useState(""); // Nama pengguna
   const [role, setRole] = useState(""); // Role pengguna
+  const [searchTerm, setSearchTerm] = useState(""); // Definisikan searchTerm
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
   const [isModalOpen, setIsModalOpen] = useState(false); // State modal
   const [modalImage, setModalImage] = useState(""); // Gambar yang ditampilkan di modal
@@ -141,8 +142,8 @@ const Dashboard = () => {
               src="/images/laboratorium-fatek-4-400x340.jpg"
               className="rounded-full"
               alt="Logo"
-              width="50"
-              height="50"
+              width="100"
+              height="100"
               style={{ objectFit: "cover" }} // Menjaga proporsi gambar tetap terjaga
               onClick={() =>
                 openModal("/images/laboratorium-fatek-4-400x340.jpg")
@@ -175,7 +176,16 @@ const Dashboard = () => {
 
         <div className="flex-1 flex flex-col overflow-hidden">
           <header className="bg-white shadow-md p-4 flex justify-between items-center">
-            <div className="relative w-96"></div>
+            <div className="relative w-96">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
 
             <div className="flex items-center space-x-6">
               <div className="relative">
@@ -206,7 +216,7 @@ const Dashboard = () => {
           <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
             <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl shadow-lg">
               <h2 className="text-3xl font-bold mb-2">
-                Selamat Datang, {name || ".."}
+                Welcome Back, {name || ".."}
               </h2>
               <p className="text-blue-100">
                 Pada web laboratorium Teknik Informatika UNSRAT
@@ -217,7 +227,7 @@ const Dashboard = () => {
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-gray-1000 mb-2">Absensi Hari Ini</h3>
+                    <h3 className="text-gray-500 mb-2">Absensi Hari Ini</h3>
                     <p className="text-3xl font-bold text-green-600">
                       {stats.absensi}
                     </p>
@@ -228,7 +238,7 @@ const Dashboard = () => {
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-gray-1000 mb-2">Total Reservasi</h3>
+                    <h3 className="text-gray-500 mb-2">Total Reservasi</h3>
                     <p className="text-3xl font-bold text-blue-600">
                       {stats.reservasi}
                     </p>
@@ -239,14 +249,14 @@ const Dashboard = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">Reservasi kamu</h3>
+              <h3 className="text-2xl font-semibold mb-4">Your Reservations</h3>
               <table className="w-full table-auto text-left">
                 <thead>
                   <tr>
                     <th className="py-2 px-4">#</th>
-                    <th className="py-2 px-4">Ruangan</th>
-                    <th className="py-2 px-4">Tanggal</th>
-                    <th className="py-2 px-4">Aksi</th>
+                    <th className="py-2 px-4">Room</th>
+                    <th className="py-2 px-4">Date</th>
+                    <th className="py-2 px-4">Actions</th>
                   </tr>
                 </thead>
                 <tbody>

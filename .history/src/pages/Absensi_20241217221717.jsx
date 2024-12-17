@@ -67,6 +67,13 @@ const Absensi = () => {
         <div className="w-8"></div>
       </header>
 
+      {/* Selamat Datang */}
+      <section className="mb-6 text-center">
+        <h2 className="text-xl font-semibold text-gray-700">
+          Selamat Datang, {currentUserName}!
+        </h2>
+      </section>
+
       {/* Konten Utama */}
       <main className="grid md:grid-cols-2 gap-8">
         {/* Kolom QR Code */}

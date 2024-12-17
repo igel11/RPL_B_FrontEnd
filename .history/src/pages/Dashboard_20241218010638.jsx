@@ -11,6 +11,7 @@ const Dashboard = () => {
   });
   const [name, setName] = useState(""); // Nama pengguna
   const [role, setRole] = useState(""); // Role pengguna
+  const [searchTerm, setSearchTerm] = useState(""); // Definisikan searchTerm
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
   const [isModalOpen, setIsModalOpen] = useState(false); // State modal
   const [modalImage, setModalImage] = useState(""); // Gambar yang ditampilkan di modal
@@ -239,14 +240,14 @@ const Dashboard = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">Reservasi kamu</h3>
+              <h3 className="text-2xl font-semibold mb-4">Your Reservations</h3>
               <table className="w-full table-auto text-left">
                 <thead>
                   <tr>
                     <th className="py-2 px-4">#</th>
-                    <th className="py-2 px-4">Ruangan</th>
-                    <th className="py-2 px-4">Tanggal</th>
-                    <th className="py-2 px-4">Aksi</th>
+                    <th className="py-2 px-4">Room</th>
+                    <th className="py-2 px-4">Date</th>
+                    <th className="py-2 px-4">Actions</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -11,9 +11,8 @@ const Dashboard = () => {
   });
   const [name, setName] = useState(""); // Nama pengguna
   const [role, setRole] = useState(""); // Role pengguna
+  const [searchTerm, setSearchTerm] = useState(""); // Definisikan searchTerm
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
-  const [isModalOpen, setIsModalOpen] = useState(false); // State modal
-  const [modalImage, setModalImage] = useState(""); // Gambar yang ditampilkan di modal
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
@@ -53,18 +52,7 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
-  // Fungsi untuk membuka modal dengan gambar
-  const openModal = (image) => {
-    setIsModalOpen(true);
-    setModalImage(image); // Set gambar yang akan ditampilkan di modal
-  };
-
-  // Fungsi untuk menutup modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalImage(""); // Clear gambar modal saat ditutup
-  };
-
+  // Fungsi untuk menambahkan reservasi baru ke state setelah berhasil reservasi
   const handleNewReservation = (newReservation) => {
     setReservations([...reservations, newReservation]); // Menambahkan reservasi baru
     setStats((prevStats) => ({
@@ -141,12 +129,8 @@ const Dashboard = () => {
               src="/images/laboratorium-fatek-4-400x340.jpg"
               className="rounded-full"
               alt="Logo"
-              width="50"
-              height="50"
-              style={{ objectFit: "cover" }} // Menjaga proporsi gambar tetap terjaga
-              onClick={() =>
-                openModal("/images/laboratorium-fatek-4-400x340.jpg")
-              } // Open modal on click
+              width="100" // Menetapkan lebar gambar 50px
+              height="50" // Menetapkan tinggi gambar 50px
             />
             <h1 className="text-xl font-bold">Lab TI UNSRAT</h1>
           </div>
@@ -175,7 +159,16 @@ const Dashboard = () => {
 
         <div className="flex-1 flex flex-col overflow-hidden">
           <header className="bg-white shadow-md p-4 flex justify-between items-center">
-            <div className="relative w-96"></div>
+            <div className="relative w-96">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
 
             <div className="flex items-center space-x-6">
               <div className="relative">
@@ -206,7 +199,7 @@ const Dashboard = () => {
           <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
             <div className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl shadow-lg">
               <h2 className="text-3xl font-bold mb-2">
-                Selamat Datang, {name || ".."}
+                Welcome Back, {name || ".."}
               </h2>
               <p className="text-blue-100">
                 Pada web laboratorium Teknik Informatika UNSRAT
@@ -217,52 +210,56 @@ const Dashboard = () => {
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-gray-1000 mb-2">Absensi Hari Ini</h3>
-                    <p className="text-3xl font-bold text-green-600">
+                    <h3 className="text-gray-500 mb-2">Total Absensi</h3>
+                    <p className="text-3xl font-bold text-blue-600">
                       {stats.absensi}
                     </p>
                   </div>
-                  <i className="fas fa-calendar-check text-5xl text-gray-500"></i>
+                  <i className="fas fa-qrcode text-3xl text-blue-300"></i>
                 </div>
               </div>
+
               <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-2">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-gray-1000 mb-2">Total Reservasi</h3>
+                    <h3 className="text-gray-500 mb-2">Total Reservasi</h3>
                     <p className="text-3xl font-bold text-blue-600">
                       {stats.reservasi}
                     </p>
                   </div>
-                  <i className="fas fa-calendar-alt text-5xl text-gray-500"></i>
+                  <i className="fas fa-calendar-alt text-3xl text-blue-300"></i>
                 </div>
               </div>
             </div>
 
+            <div className="text-lg font-semibold text-gray-600 mb-4">
+              Reservasi Anda
+            </div>
+
             <div className="bg-white p-6 rounded-xl shadow-lg">
-              <h3 className="text-2xl font-semibold mb-4">Reservasi kamu</h3>
-              <table className="w-full table-auto text-left">
+              <table className="min-w-full text-sm">
                 <thead>
                   <tr>
-                    <th className="py-2 px-4">#</th>
-                    <th className="py-2 px-4">Ruangan</th>
-                    <th className="py-2 px-4">Tanggal</th>
-                    <th className="py-2 px-4">Aksi</th>
+                    <th className="text-left p-2">No</th>
+                    <th className="text-left p-2">Ruangan</th>
+                    <th className="text-left p-2">Tanggal</th>
+                    <th className="text-left p-2">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {reservations.map((reservation, index) => (
-                    <tr key={reservation.id} className="border-b">
-                      <td className="py-2 px-4">{index + 1}</td>
-                      <td className="py-2 px-4">{reservation.room}</td>
-                      <td className="py-2 px-4">{reservation.date}</td>
-                      <td className="py-2 px-4">
+                    <tr key={reservation.id}>
+                      <td className="p-2">{index + 1}</td>
+                      <td className="p-2">{reservation.room}</td>
+                      <td className="p-2">{reservation.date}</td>
+                      <td className="p-2">
                         <button
+                          className="text-red-500"
                           onClick={() =>
                             handleCancelReservation(reservation.id)
                           }
-                          className="bg-red-600 text-white rounded-lg py-1 px-4"
                         >
-                          Cancel
+                          Batal
                         </button>
                       </td>
                     </tr>
@@ -272,31 +269,6 @@ const Dashboard = () => {
             </div>
           </main>
         </div>
-
-        {/* Modal untuk menampilkan gambar lebih besar */}
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-            onClick={closeModal} // Menutup modal saat klik di luar gambar
-          >
-            <div
-              className="bg-white p-4 rounded-lg relative"
-              onClick={(e) => e.stopPropagation()} // Mencegah penutupan saat klik gambar
-            >
-              <button
-                className="absolute top-4 right-4 text-xl font-bold"
-                onClick={closeModal}
-              >
-                X
-              </button>
-              <img
-                src={modalImage}
-                alt="Logo"
-                className="max-w-full max-h-screen"
-              />
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

@@ -31,7 +31,6 @@ const Laporan = () => {
                   <option value="mouse">Mouse</option>
                   <option value="keyboard">Keyboard</option>
                   <option value="printer3d">Printer 3D</option>
-                  <option value="printer3d">Printer 2D</option>
                 </select>
               </div>
 

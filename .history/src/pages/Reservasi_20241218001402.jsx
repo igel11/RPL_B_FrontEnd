@@ -75,7 +75,7 @@ const Reservasi = () => {
     }
 
     if (!selectedRoom) {
-      alert("Ruangan sudah dipesan pada waktu tersebut.");
+      alert("Silakan pilih ruangan.");
       return;
     }
 

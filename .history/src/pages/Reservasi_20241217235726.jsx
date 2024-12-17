@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -10,8 +10,6 @@ const Reservasi = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
-  const [reservations, setReservations] = useState([]); // Untuk menyimpan data reservasi yang sudah ada
-  const [isRoomAvailable, setIsRoomAvailable] = useState(true); // Untuk memvalidasi apakah ruangan tersedia atau tidak
 
   // Daftar ruangan yang tersedia
   const availableRooms = [
@@ -20,40 +18,6 @@ const Reservasi = () => {
     "Multi Media",
     "Rekayasa Perangkat Lunak",
   ];
-
-  // Ambil data reservasi yang sudah ada dari backend
-  useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const response = await fetch("http://localhost:3500/api/reservations");
-        const data = await response.json();
-        setReservations(data);
-      } catch (error) {
-        console.error("Error fetching reservations:", error);
-      }
-    };
-    fetchReservations();
-  }, []);
-
-  // Cek ketersediaan ruangan pada tanggal dan waktu tertentu
-  const checkRoomAvailability = (selectedDate, room, start, end) => {
-    const isAvailable = reservations.every((reservation) => {
-      const reservationDate = new Date(reservation.date);
-      const startTime = new Date(
-        `${reservation.date} ${reservation.startTime}`
-      );
-      const endTime = new Date(`${reservation.date} ${reservation.endTime}`);
-
-      // Cek apakah ruangan yang sama sudah dipesan pada waktu yang sama
-      return !(
-        reservation.room === room &&
-        reservationDate.toDateString() === selectedDate.toDateString() &&
-        startTime <= end &&
-        endTime >= start
-      );
-    });
-    setIsRoomAvailable(isAvailable);
-  };
 
   // Form Submission
   const handleSubmit = async (e) => {
@@ -75,7 +39,7 @@ const Reservasi = () => {
     }
 
     if (!selectedRoom) {
-      alert("Ruangan sudah dipesan pada waktu tersebut.");
+      alert("Silakan pilih ruangan.");
       return;
     }
 
@@ -88,9 +52,9 @@ const Reservasi = () => {
       name,
       role,
     };
-
+    
     const response = await fetch(
-      "http://localhost:3500/api/reservations/add", // URL backend yang sesuai
+      "http://localhost:3500/api/reservations/add", // Perbaiki URL ke backend yang sesuai
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -98,30 +62,24 @@ const Reservasi = () => {
       }
     );
     const result = await response.json();
-
+    
     if (response.ok) {
       alert(result.message);
-      navigate("/dashboard");
+      setDate(new Date());
+      setStartTime("");
+      setEndTime("");
+      setSelectedRoom("");
     } else {
       alert(result.message);
+    };
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Gagal mengajukan reservasi.");
     }
   };
 
-  // Menangani perubahan tanggal pada kalender
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    // Cek ketersediaan ruangan setelah tanggal dipilih
-    if (selectedRoom) {
-      checkRoomAvailability(newDate, selectedRoom, startTime, endTime);
-    }
-  };
-
-  // Menangani pemilihan ruangan
   const handleRoomSelect = (room) => {
     setSelectedRoom(room);
-    if (date) {
-      checkRoomAvailability(date, room, startTime, endTime);
-    }
   };
 
   const modernCalendarStyles = `
@@ -182,7 +140,7 @@ const Reservasi = () => {
               Pilih Tanggal
             </h2>
             <Calendar
-              onChange={handleDateChange}
+              onChange={setDate}
               value={date}
               minDate={new Date()}
               next2Label={null}
@@ -243,9 +201,8 @@ const Reservasi = () => {
             <button
               type="submit"
               className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition font-semibold"
-              disabled={!isRoomAvailable}
             >
-              {isRoomAvailable ? "Ajukan Reservasi" : "Ruangan Tidak Tersedia"}
+              Ajukan Reservasi
             </button>
           </div>
         </form>

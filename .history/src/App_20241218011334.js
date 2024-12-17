@@ -15,9 +15,9 @@ const App = () => {
       {" "}
       {/* Pastikan seluruh aplikasi dibungkus Router */}
       <Routes>
-        {/* Halaman utama SignIn */}
+        {/* Halaman utama SignUp */}
         <Route path="/" element={<SignIn />} />
-        {/* Halaman SignUp */}
+        {/* Halaman SignIn */}
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Dashboard" element={<Dashboard />} />
