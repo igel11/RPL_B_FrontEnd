@@ -137,7 +137,7 @@ class SignUp extends Component {
 
             {this.state.role === "Mahasiswa" && (
               <div className="mb-4">
-                <span className="block mb-2">Sub role</span>
+                <span className="block mb-2">Sub user</span>
                 <div className="flex items-center">
                   <input
                     type="radio"

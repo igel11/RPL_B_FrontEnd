@@ -43,7 +43,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.clear(); // Hapus data dari localStorage
-    navigate("/"); // Kembali ke halaman login
+    navigate("/login"); // Kembali ke halaman login
   };
 
   return (
@@ -89,7 +89,7 @@ const Profile = () => {
 
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
             <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
-              {name || "Admin"}
+              {name || "Nama Tidak Ditemukan"}
             </h2>
             <hr className="border-gray-200 mb-4" />
             <div className="space-y-4">
@@ -99,7 +99,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="text"
-                  value={name || "Admin"}
+                  value={name || "Name belum diatur"}
                   readOnly
                   className="w-full p-2 border rounded-md mt-2 bg-gray-100 cursor-not-allowed"
                 />
@@ -111,7 +111,7 @@ const Profile = () => {
                 </label>
                 <input
                   type="text"
-                  value={role || "Dosen"}
+                  value={role || "Role belum diatur"}
                   readOnly
                   className="w-full p-2 border rounded-md mt-2 bg-gray-100 cursor-not-allowed"
                 />

@@ -88,7 +88,6 @@ const SignIn = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              aria-label={passwordVisible ? "Hide password" : "Show password"}
               className="text-gray-600 cursor-pointer bg-none border-none text-xl"
             >
               <FontAwesomeIcon

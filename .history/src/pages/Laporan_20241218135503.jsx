@@ -5,15 +5,6 @@ const Laporan = () => {
   const [lokasiRuangan, setLokasiRuangan] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [foto, setFoto] = useState(null);
-  const [fotoPreview, setFotoPreview] = useState(null);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFoto(file);
-      setFotoPreview(URL.createObjectURL(file)); // Membuat pratinjau gambar
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +15,7 @@ const Laporan = () => {
     formData.append("foto", foto);
 
     try {
-      const response = await fetch("http://localhost:3500/api/laporan", {
+      const response = await fetch("http://localhost:3001/api/laporan", {
         method: "POST",
         body: formData,
       });
@@ -36,11 +27,6 @@ const Laporan = () => {
       const data = await response.json();
       alert("Laporan berhasil dikirim!");
       console.log(data);
-      setNamaAlat("");
-      setLokasiRuangan("");
-      setDeskripsi("");
-      setFoto(null);
-      setFotoPreview(null);
     } catch (error) {
       console.error(error.message);
       alert("Gagal mengirim laporan, silakan coba lagi.");
@@ -51,6 +37,7 @@ const Laporan = () => {
     <div className="bg-gray-100 flex flex-col items-center min-h-screen">
       <div className="w-full max-w-4xl">
         <header className="w-full flex items-center justify-between p-6 bg-white shadow-md rounded-b-xl">
+          {/* Tombol kembali */}
           <a href="/dashboard" className="text-gray-600 hover:text-gray-800">
             <i className="fas fa-arrow-left text-xl cursor-pointer transition"></i>
           </a>
@@ -118,26 +105,20 @@ const Laporan = () => {
                   Unggah Foto
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  {fotoPreview ? (
-                    <img
-                      src={fotoPreview}
-                      alt="Preview"
-                      className="mb-4 mx-auto h-65 object-contain"
+                  <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                  <p className="text-gray-600 mb-2">
+                    Seret dan lepas foto di sini
+                  </p>
+                  <p className="text-sm text-gray-500">atau</p>
+                  <label className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition">
+                    Pilih Foto
+                    <input
+                      type="file"
+                      className="hidden"
+                      required
+                      onChange={(e) => setFoto(e.target.files[0])}
                     />
-                  ) : (
-                    <>
-                      <p className="text-gray-600 mb-2"></p>
-                      <label className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition">
-                        Pilih Foto
-                        <input
-                          type="file"
-                          className="hidden"
-                          required
-                          onChange={handleFileChange}
-                        />
-                      </label>
-                    </>
-                  )}
+                  </label>
                 </div>
               </div>
 

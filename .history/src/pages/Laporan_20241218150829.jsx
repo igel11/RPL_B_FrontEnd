@@ -118,11 +118,12 @@ const Laporan = () => {
                   Unggah Foto
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
                   {fotoPreview ? (
                     <img
                       src={fotoPreview}
                       alt="Preview"
-                      className="mb-4 mx-auto h-65 object-contain"
+                      className="mb-4 mx-auto h-32 object-contain"
                     />
                   ) : (
                     <>
@@ -131,7 +132,7 @@ const Laporan = () => {
                         Pilih Foto
                         <input
                           type="file"
-                          className="hidden"
+                          className="full"
                           required
                           onChange={handleFileChange}
                         />

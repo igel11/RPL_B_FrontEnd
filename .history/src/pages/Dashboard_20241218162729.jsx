@@ -21,8 +21,8 @@ const Dashboard = () => {
 
     if (storedName && storedRole) {
       setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {
@@ -94,7 +94,7 @@ const Dashboard = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
-    navigate("/profile");
+    navigate("/login"); // Navigate to login page on logout
   };
 
   const sidebarMenus = [
@@ -143,8 +143,10 @@ const Dashboard = () => {
               alt="Logo"
               width="50"
               height="50"
-              style={{ objectFit: "cover" }}
-              onClick={() => navigate("/profile")}
+              style={{ objectFit: "cover" }} // Menjaga proporsi gambar tetap terjaga
+              onClick={() =>
+                openModal("/images/laboratorium-fatek-4-400x340.jpg")
+              } // Open modal on click
             />
             <h1 className="text-xl font-bold">Lab TI UNSRAT</h1>
           </div>
@@ -176,7 +178,7 @@ const Dashboard = () => {
             <div className="relative w-96"></div>
 
             <div className="flex items-center space-x-6">
-              <div className="relative" onClick={() => navigate("/Notifikasi")}>
+              <div className="relative">
                 <i className="fas fa-bell text-xl text-gray-600 hover:text-blue-600 cursor-pointer"></i>
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
                   3

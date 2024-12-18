@@ -21,8 +21,8 @@ const Dashboard = () => {
 
     if (storedName && storedRole) {
       setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {
@@ -94,7 +94,7 @@ const Dashboard = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
-    navigate("/profile");
+    navigate("/dashboard");
   };
 
   const sidebarMenus = [

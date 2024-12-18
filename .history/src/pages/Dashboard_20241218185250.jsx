@@ -21,8 +21,8 @@ const Dashboard = () => {
 
     if (storedName && storedRole) {
       setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {
@@ -94,13 +94,15 @@ const Dashboard = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
-    navigate("/profile");
+    navigate("/"); // Navigate to login page on logout
   };
 
   const sidebarMenus = [
     { icon: "fa-home", text: "Dasbor", path: "/dashboard" },
     { icon: "fa-qrcode", text: "Absensi", path: "/Absensi" },
     { icon: "fa-calendar-alt", text: "Reservasi", path: "/Reservasi" },
+    { icon: "fa-bell", text: "Notifikasi", path: "/Notifikasi" },
+    { icon: "fa-user", text: "Profile", path: "/Profile" },
     {
       icon: "fa-exclamation-triangle",
       text: "Laporan Kerusakan",
@@ -143,8 +145,10 @@ const Dashboard = () => {
               alt="Logo"
               width="50"
               height="50"
-              style={{ objectFit: "cover" }}
-              onClick={() => navigate("/profile")}
+              style={{ objectFit: "cover" }} // Menjaga proporsi gambar tetap terjaga
+              onClick={() =>
+                openModal("/images/laboratorium-fatek-4-400x340.jpg")
+              } // Open modal on click
             />
             <h1 className="text-xl font-bold">Lab TI UNSRAT</h1>
           </div>

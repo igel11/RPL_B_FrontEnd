@@ -118,13 +118,15 @@ const Laporan = () => {
                   Unggah Foto
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
                   {fotoPreview ? (
                     <img
                       src={fotoPreview}
                       alt="Preview"
-                      className="mb-4 mx-auto h-65 object-contain"
+                      className="mb-4 mx-auto h-32 object-contain"
                     />
                   ) : (
+                    // Jika foto belum diunggah, tampilkan teks dan tombol pilih file
                     <>
                       <p className="text-gray-600 mb-2"></p>
                       <label className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition">

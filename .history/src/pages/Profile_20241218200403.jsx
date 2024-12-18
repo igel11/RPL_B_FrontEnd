@@ -1,26 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState(
     "https://placehold.co/200x200"
   );
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedName = localStorage.getItem("name");
-    const storedRole = localStorage.getItem("role");
-
-    console.log("Stored Name:", storedName);
-    console.log("Stored Role:", storedRole);
-
-    if (storedName) setName(storedName);
-    if (storedRole) setRole(storedRole);
-  }, []);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -37,35 +22,20 @@ const Profile = () => {
     fileInputRef.current.click();
   };
 
-  const handleBackToDashboard = () => {
-    navigate("/dashboard");
-  };
-
-  const handleLogout = () => {
-    localStorage.clear(); // Hapus data dari localStorage
-    navigate("/"); // Kembali ke halaman login
-  };
-
   return (
     <div className="bg-gray-100 flex flex-col items-center min-h-screen">
       <div className="w-full max-w-4xl mx-auto">
         <header className="w-full flex items-center justify-between p-6 bg-white shadow-md rounded-b-xl">
-          <button
-            onClick={handleBackToDashboard}
-            className="text-gray-600 hover:text-gray-800"
-          >
+          {/* Tombol Kembali */}
+          <Link to="/dashboard" className="text-gray-600 hover:text-gray-800">
             <i className="fas fa-arrow-left text-xl cursor-pointer transition"></i>
-          </button>
+          </Link>
           <h1 className="text-2xl font-bold text-gray-800">Profil</h1>
-          <button
-            onClick={handleLogout}
-            className="text-red-600 hover:text-red-800"
-          >
-            Logout
-          </button>
+          <div className="w-6"></div>
         </header>
 
         <main className="mt-8 space-y-6 flex flex-col items-center">
+          {/* Kontainer Gambar Profil dengan Tombol Edit */}
           <div className="relative">
             <img
               src={profileImage}
@@ -78,6 +48,8 @@ const Profile = () => {
             >
               <i className="fas fa-camera"></i>
             </button>
+
+            {/* Input File Tersembunyi */}
             <input
               type="file"
               ref={fileInputRef}
@@ -89,17 +61,30 @@ const Profile = () => {
 
           <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg">
             <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
-              {name || "Admin"}
+              Sarazel
             </h2>
             <hr className="border-gray-200 mb-4" />
+
+            {/* Form Edit Profil */}
             <div className="space-y-4">
               <div>
                 <label className="text-lg font-medium text-gray-800">
-                  Name
+                  Nama
                 </label>
                 <input
                   type="text"
-                  value={name || "Admin"}
+                  defaultValue="Sarazel"
+                  className="w-full p-2 border rounded-md mt-2"
+                />
+              </div>
+
+              <div>
+                <label className="text-lg font-medium text-gray-800">
+                  Role
+                </label>
+                <input
+                  type="text"
+                  value="Mahasiswa"
                   readOnly
                   className="w-full p-2 border rounded-md mt-2 bg-gray-100 cursor-not-allowed"
                 />
@@ -111,15 +96,36 @@ const Profile = () => {
                 </label>
                 <input
                   type="text"
-                  value={role || "Dosen"}
+                  value="Mahasiswa"
                   readOnly
                   className="w-full p-2 border rounded-md mt-2 bg-gray-100 cursor-not-allowed"
                 />
               </div>
+
+              <button className="w-full bg-black text-white p-3 rounded-md hover:bg-gray-800 transition">
+                Simpan Perubahan
+              </button>
+            </div>
+
+            <div className="mt-6">
+              <p className="text-lg font-medium text-gray-800">
+                Riwayat aktivitas:
+              </p>
+              <ul className="list-disc list-inside text-lg text-gray-600">
+                <li>Reservasi Lab</li>
+                <li>Absensi Praktikum</li>
+                <li>Laporan Kerusakan Alat</li>
+              </ul>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Tambahkan link Font Awesome */}
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      />
     </div>
   );
 };

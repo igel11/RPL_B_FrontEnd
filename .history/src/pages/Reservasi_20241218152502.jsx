@@ -101,11 +101,6 @@ const Reservasi = () => {
 
     if (response.ok) {
       alert(result.message);
-      // Menambahkan reservasi baru ke daftar yang sudah ada dan mengupdate status reservasi di Dashboard
-      setReservations((prevReservations) => [
-        ...prevReservations,
-        reservationData,
-      ]);
       navigate("/dashboard");
     } else {
       alert(result.message);

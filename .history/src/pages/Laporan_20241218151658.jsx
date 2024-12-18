@@ -122,7 +122,7 @@ const Laporan = () => {
                     <img
                       src={fotoPreview}
                       alt="Preview"
-                      className="mb-4 mx-auto h-65 object-contain"
+                      className="mb-4 mx-auto h-70 object-contain"
                     />
                   ) : (
                     <>

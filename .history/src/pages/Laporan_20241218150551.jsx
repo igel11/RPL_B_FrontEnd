@@ -117,16 +117,19 @@ const Laporan = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Unggah Foto
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center relative">
                   {fotoPreview ? (
                     <img
                       src={fotoPreview}
                       alt="Preview"
-                      className="mb-4 mx-auto h-65 object-contain"
+                      className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
                     />
                   ) : (
                     <>
-                      <p className="text-gray-600 mb-2"></p>
+                      <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                      <p className="text-gray-600 mb-2">
+                        Unggah foto kerusakan
+                      </p>
                       <label className="inline-block mt-2 px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition">
                         Pilih Foto
                         <input

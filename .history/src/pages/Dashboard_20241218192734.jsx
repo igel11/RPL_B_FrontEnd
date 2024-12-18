@@ -11,7 +11,6 @@ const Dashboard = () => {
   });
   const [name, setName] = useState(""); // Nama pengguna
   const [role, setRole] = useState(""); // Role pengguna
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
   const [isModalOpen, setIsModalOpen] = useState(false); // State modal
   const [modalImage, setModalImage] = useState(""); // Gambar yang ditampilkan di modal
 
@@ -20,9 +19,8 @@ const Dashboard = () => {
     const storedRole = localStorage.getItem("role");
 
     if (storedName && storedRole) {
-      setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {

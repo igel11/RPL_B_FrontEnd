@@ -18,11 +18,12 @@ const Dashboard = () => {
   useEffect(() => {
     const storedName = localStorage.getItem("name");
     const storedRole = localStorage.getItem("role");
+    const storedEmail = localStorage.getItem("email");
 
     if (storedName && storedRole) {
       setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {

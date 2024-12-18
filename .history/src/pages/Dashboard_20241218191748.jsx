@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Status login
   const [isModalOpen, setIsModalOpen] = useState(false); // State modal
   const [modalImage, setModalImage] = useState(""); // Gambar yang ditampilkan di modal
+  const Profile = () => {
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
@@ -21,8 +22,8 @@ const Dashboard = () => {
 
     if (storedName && storedRole) {
       setIsLoggedIn(true);
-      setName(storedName);
-      setRole(storedRole);
+      setName(storedName); // Ambil nama pengguna dari localStorage
+      setRole(storedRole); // Ambil role pengguna dari localStorage
 
       axios
         .get("http://localhost:3500/api/user/profile", {
@@ -94,7 +95,7 @@ const Dashboard = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
-    navigate("/profile");
+    navigate("/Profile");
   };
 
   const sidebarMenus = [

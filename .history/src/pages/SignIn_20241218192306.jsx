@@ -40,7 +40,7 @@ const SignIn = () => {
         // Simpan nama pengguna dan role di localStorage
         localStorage.setItem("name", data.name); // Simpan nama pengguna
         localStorage.setItem("role", data.role); // Simpan role pengguna
-        localStorage.setItem("email", data.email); // Simpan role
+        loaclStorage.setItem("email", data.email); // Simpan role
 
         // Navigasi ke dashboard setelah login berhasil
         navigate("/Dashboard");
@@ -88,7 +88,6 @@ const SignIn = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              aria-label={passwordVisible ? "Hide password" : "Show password"}
               className="text-gray-600 cursor-pointer bg-none border-none text-xl"
             >
               <FontAwesomeIcon
